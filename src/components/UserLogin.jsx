@@ -115,6 +115,8 @@ const UserLogin = ({ ele }) => {
       return;
     }
 
+    console.log("parsed data from userlogin",parsed.data)
+
     try {
       await dispatch(userLogin(parsed.data)).unwrap();
       if (isLoggedIn) {
