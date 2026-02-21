@@ -8,12 +8,12 @@ import innerremove from "@/assets/innerganesh.png";
 
 const Banner = () => {
   return (
-    <section className="banner-section">
-      <div className="banner-container">
+    <section className="py-20 from-orange-50 via-yellow-100 to-red-100">
+      <div className="container">
         {/* Top Section */}
-        <div className="banner-top">
+        <div className="banner-top   ">
           {/* Left Content */}
-          <div className="banner-left">
+          <div className="banner-left px-10">
             <h1 className="banner-heading">
               Discover What The <br /> Stars Have Written For You ✨
             </h1>
@@ -54,9 +54,9 @@ const Banner = () => {
         </div>
 
         {/* Cards Section */}
-        <div className="banner-cards">
+        <div className="banner-cards md:flex-nowrap sm:flex-nowrap">
           {/* Chat Card */}
-          <Card className="banner-card">
+          <Card className="banner-card sm:[150px] md:w-[300px]">
             <Link to="/talk-to-astrologer">
               <CardHeader className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">

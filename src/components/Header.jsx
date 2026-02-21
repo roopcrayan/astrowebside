@@ -106,12 +106,10 @@
 //     navigate("/dashboard/profile")
 //   }
 
-
 //   useEffect(() => {
 //     const storedRole = localStorage.getItem("role_id")
 //     setRole(storedRole)
 //   }, [])
-
 
 //   const uprofile = async () => {
 //     await dispatch(userProfile()).unwrap()
@@ -120,7 +118,6 @@
 //   const astprofile = async () => {
 //     await dispatch(AstrologerProfile()).unwrap()
 //   }
-
 
 //   useEffect(() => {
 //     if (role == 2 && !astrologer) {
@@ -131,7 +128,6 @@
 //       dispatch(userProfile())
 //     }
 //   }, [dispatch, role, astrologer, user])
-
 
 //   const logout = async () => {
 //     setIsDropdownOpen(false)
@@ -154,14 +150,11 @@
 //     }
 //   }
 
-
 //   // Mock user data for design
 //   const mockUser = {
 //     username: "John Doe",
 //     avatar: null
 //   }
-
-
 
 //   // Navigation items with dynamic horoscope menu
 //   const navigationItems = [
@@ -394,7 +387,6 @@
 //                 {(!astrologer && !user) &&
 //                   (<UserLogin />)}
 
-
 //                 {(astrologer?.name || user?.name) &&
 //                   (<SheetClose asChild>
 //                     <Button variant="destructive" className="w-full rounded-2xl" onClick={() => logout()}>
@@ -412,29 +404,43 @@
 
 // export default Header
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { ChevronDown, Menu } from "lucide-react"
-import { useEffect, useState } from "react"
-import { GiStarShuriken } from "react-icons/gi"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
-import { Button } from "./ui/button"
-import { ScrollArea } from "./ui/scroll-area"
-import UserLogin from "./UserLogin"
-import { getHoroscope } from "@/redux/slice/HoroscopesSlice"
-import { AstrologerLogout, AstrologerProfile } from "@/redux/slice/AstroAuth"
-import { userLogout, userProfile } from "@/redux/slice/UserAuth"
-import LanguageSwitcher from "@/LanguageSwitcher"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { ChevronDown, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { GiStarShuriken } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { ScrollArea } from "./ui/scroll-area";
+import UserLogin from "./UserLogin";
+import { getHoroscope } from "@/redux/slice/HoroscopesSlice";
+import { AstrologerLogout, AstrologerProfile } from "@/redux/slice/AstroAuth";
+import { userLogout, userProfile } from "@/redux/slice/UserAuth";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 // Mobile Navigation Section Component (unchanged)
 const MobileNavSection = ({ navItems }) => {
-  const [openIndex, setOpenIndex] = useState(null)
+  const [openIndex, setOpenIndex] = useState(null);
 
   const toggleMenu = (index) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
     <div className="space-y-1">
@@ -471,7 +477,10 @@ const MobileNavSection = ({ navItems }) => {
               <div className="ml-4 mt-1 space-y-1 border-l border-accent pl-2">
                 {item.menu.map((menuItem, menuIndex) => (
                   <SheetClose asChild key={menuIndex}>
-                    <Link to={menuItem.path} className="flex px-2 py-1.5 text-sm rounded-md">
+                    <Link
+                      to={menuItem.path}
+                      className="flex px-2 py-1.5 text-sm rounded-md"
+                    >
                       <GiStarShuriken className="text-primary size-4 me-2" />
                       {menuItem.label}
                     </Link>
@@ -483,68 +492,68 @@ const MobileNavSection = ({ navItems }) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 const Header = () => {
-  const [openMenu, setOpenMenu] = useState({ row: null, index: null })
-  const [horosType, setHorosType] = useState([])
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const { astrologer } = useSelector((state) => state.astroAuth)
-  const { user } = useSelector((state) => state.userAuth)
-  const { horoscope } = useSelector((state) => state.horoscope)
-  const [role, setRole] = useState(localStorage.getItem("role_id"))
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [scrolled, setScrolled] = useState(false)
+  const [openMenu, setOpenMenu] = useState({ row: null, index: null });
+  const [horosType, setHorosType] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { astrologer } = useSelector((state) => state.astroAuth);
+  const { user } = useSelector((state) => state.userAuth);
+  const { horoscope } = useSelector((state) => state.horoscope);
+  const [role, setRole] = useState(localStorage.getItem("role_id"));
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const moveToDashboard = () => {
-    setIsDropdownOpen(false)
-    navigate("/dashboard/profile")
-  }
+    setIsDropdownOpen(false);
+    navigate("/dashboard/profile");
+  };
 
   useEffect(() => {
-    const storedRole = localStorage.getItem("role_id")
-    setRole(storedRole)
-  }, [])
+    const storedRole = localStorage.getItem("role_id");
+    setRole(storedRole);
+  }, []);
 
   useEffect(() => {
     if (role == 2 && !astrologer) {
-      dispatch(AstrologerProfile())
+      dispatch(AstrologerProfile());
     }
     if (role == 3 && !user) {
-      dispatch(userProfile())
+      dispatch(userProfile());
     }
-  }, [dispatch, role, astrologer, user])
+  }, [dispatch, role, astrologer, user]);
 
   const logout = async () => {
-    setIsDropdownOpen(false)
+    setIsDropdownOpen(false);
     try {
-      const role = Number(localStorage.getItem("role_id"))
+      const role = Number(localStorage.getItem("role_id"));
       if (role === 2) {
-        await dispatch(AstrologerLogout()).unwrap()
+        await dispatch(AstrologerLogout()).unwrap();
       } else if (role === 3) {
-        await dispatch(userLogout()).unwrap()
+        await dispatch(userLogout()).unwrap();
       }
-      localStorage.removeItem("token")
-      localStorage.removeItem("role_id")
+      localStorage.removeItem("token");
+      localStorage.removeItem("role_id");
     } catch (err) {
-      console.log("Logout error:", err)
+      console.log("Logout error:", err);
     }
-  }
+  };
 
   const mockUser = {
     username: "John Doe",
-    avatar: null
-  }
+    avatar: null,
+  };
 
   const navigationItems = [
     {
@@ -552,76 +561,81 @@ const Header = () => {
       path: "/best-astrologers",
       type: "link",
       hasmenu: horosType.length > 0,
-      menu: horosType
+      menu: horosType,
     },
     {
       name: "Chat / Call to Astrologer",
       path: "/talk-to-astrologer",
       type: "link",
-      hasmenu: false
+      hasmenu: false,
     },
     {
       name: "Store",
       path: "https://store.adkrayons.com/product",
       type: "link",
-      hasmenu: false
+      hasmenu: false,
     },
     {
       name: "Blogs",
       path: "/blogs",
       type: "link",
-      hasmenu: false
+      hasmenu: false,
     },
-  ]
+  ];
 
   useEffect(() => {
     if (!horoscope) {
       const fetchHoroscopes = async () => {
         try {
-          await dispatch(getHoroscope()).unwrap()
+          await dispatch(getHoroscope()).unwrap();
         } catch (error) {
-          console.log(error.message)
+          console.log(error.message);
         }
-      }
-      fetchHoroscopes()
+      };
+      fetchHoroscopes();
     }
-  }, [horoscope, dispatch])
+  }, [horoscope, dispatch]);
 
   useEffect(() => {
     if (horoscope?.length > 0) {
       try {
-        const horosSet = new Set()
-        const horos = []
+        const horosSet = new Set();
+        const horos = [];
         horoscope.forEach((ele) => {
           if (ele.type && !horosSet.has(ele.type)) {
-            horosSet.add(ele.type)
+            horosSet.add(ele.type);
             horos.push({
-              label: ele.type.charAt(0).toUpperCase() + ele.type.slice(1) + " Horoscope",
-              path: `/horoscopes/${ele.type.toLowerCase()}`
-            })
+              label:
+                ele.type.charAt(0).toUpperCase() +
+                ele.type.slice(1) +
+                " Horoscope",
+              path: `/horoscopes/${ele.type.toLowerCase()}`,
+            });
           }
-        })
-        setHorosType(horos)
+        });
+        setHorosType(horos);
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     }
-  }, [horoscope])
+  }, [horoscope]);
 
   return (
     <header
-      className={`
-        sticky top-0 z-50 w-full transition-all duration-300 ease-in-out
-        bg-gradient-to-r from-[#FEF978] to-[#da710f]
-        ${scrolled ? "shadow-lg border-b border-white/20" : ""}
-      `}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ease-in-out
+      ${scrolled
+          ? "bg-white/60 backdrop-blur-lg shadow-lg border-b border-white/20"
+          : "bg-white"
+        }`}
     >
-      
-      <div className="container mx-auto px-4 md:px-10 flex h-16 items-center justify-between">
+      <div className="container mx-auto px-4 md:px-10 flex h-16 items-center justify-between   md:justify-center border-1 rounded-3xl gap-2.5 ">
         {/* Left side: Home link + desktop navigation */}
-        <div className="flex items-center space-x-6">
-          <GiStarShuriken className="text-primary size-4 me-2" />
-          <Link to="/" className="text-sm font-medium hover:text-[#070707cc]  transition-colors">
+        <div className="flex items-center space-x-6 ">
+          <GiStarShuriken className="text-primary size-4 me-2 hidden md:block" />
+          <Link
+            to="/"
+            className="text-sm font-medium hover:text-[#070707cc]  transition-colors"
+          >
             Home
           </Link>
           <nav className="hidden lg:flex items-center space-x-6">
@@ -629,8 +643,12 @@ const Header = () => {
               <div
                 key={index}
                 className="relative"
-                onMouseEnter={() => item.hasmenu && setOpenMenu({ row: 2, index })}
-                onMouseLeave={() => item.hasmenu && setOpenMenu({ row: null, index: null })}
+                onMouseEnter={() =>
+                  item.hasmenu && setOpenMenu({ row: 2, index })
+                }
+                onMouseLeave={() =>
+                  item.hasmenu && setOpenMenu({ row: null, index: null })
+                }
               >
                 {item.hasmenu ? (
                   <button className="flex items-center space-x-1 text-sm font-medium transition-colors hover:text-[#070707cc] ">
@@ -649,42 +667,54 @@ const Header = () => {
                   </Link>
                 )}
 
-                {item.hasmenu && openMenu.row === 2 && openMenu.index === index && (
-                  <div className="absolute left-0 top-full mt-0 w-56 rounded-md border bg-popover p-1 shadow-md">
-                    <ScrollArea className="max-h-96">
-                      {item.menu.map((menuItem, idx) => (
-                        <Link
-                          key={idx}
-                          to={menuItem.path}
-                          className="px-3 py-2 text-sm rounded-sm flex items-center hover:bg-primary/70 hover:text-black"
-                        >
-                          <GiStarShuriken className="size-4 me-2" />
-                          {menuItem.label}
-                        </Link>
-                      ))}
-                    </ScrollArea>
-                  </div>
-                )}
+                {item.hasmenu &&
+                  openMenu.row === 2 &&
+                  openMenu.index === index && (
+                    <div className="absolute left-0 top-full mt-0 w-56 rounded-md border bg-popover p-1 shadow-md">
+                      <ScrollArea className="max-h-96">
+                        {item.menu.map((menuItem, idx) => (
+                          <Link
+                            key={idx}
+                            to={menuItem.path}
+                            className="px-3 py-2 text-sm rounded-sm flex items-center hover:bg-primary/70 hover:text-black"
+                          >
+                            <GiStarShuriken className="size-4 me-2" />
+                            {menuItem.label}
+                          </Link>
+                        ))}
+                      </ScrollArea>
+                    </div>
+                  )}
               </div>
             ))}
           </nav>
         </div>
 
         {/* Right side: LanguageSwitcher + Auth (hidden on mobile) */}
-        <div className="hidden lg:flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4 ">
           <LanguageSwitcher className="bg-transparent text-sm font-normal" />
           <div>
             {astrologer?.name || user?.name ? (
-              <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+              <DropdownMenu
+                open={isDropdownOpen}
+                onOpenChange={setIsDropdownOpen}
+              >
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
                     <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={user ? user?.profile_image : astrologer?.profile_image}
+                        src={
+                          user ? user?.profile_image : astrologer?.profile_image
+                        }
                         alt={mockUser.username}
                       />
                       <AvatarFallback>
-                        {(astrologer?.name || user?.name)?.charAt(0).toUpperCase()}
+                        {(astrologer?.name || user?.name)
+                          ?.charAt(0)
+                          .toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -698,7 +728,10 @@ const Header = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer" onClick={moveToDashboard}>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={moveToDashboard}
+                  >
                     Dashboard
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer" onClick={logout}>
@@ -743,21 +776,31 @@ const Header = () => {
                   <div className="flex items-center gap-3 p-2 border rounded-md">
                     <Avatar className="h-10 w-10">
                       <AvatarImage
-                        src={user ? user?.profile_image : astrologer?.profile_image}
+                        src={
+                          user ? user?.profile_image : astrologer?.profile_image
+                        }
                         alt={mockUser.username}
                       />
                       <AvatarFallback>
-                        {(astrologer?.name || user?.name)?.charAt(0).toUpperCase()}
+                        {(astrologer?.name || user?.name)
+                          ?.charAt(0)
+                          .toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">{astrologer?.name || user?.name}</p>
+                      <p className="text-sm font-medium">
+                        {astrologer?.name || user?.name}
+                      </p>
                     </div>
                   </div>
                 )}
                 {(astrologer?.name || user?.name) && (
                   <SheetClose asChild>
-                    <Button variant="outline" onClick={moveToDashboard} className="w-full bg-primary rounded-full">
+                    <Button
+                      variant="outline"
+                      onClick={moveToDashboard}
+                      className="w-full bg-primary rounded-full"
+                    >
                       Dashboard
                     </Button>
                   </SheetClose>
@@ -765,7 +808,11 @@ const Header = () => {
                 {!astrologer && !user && <UserLogin />}
                 {(astrologer?.name || user?.name) && (
                   <SheetClose asChild>
-                    <Button variant="destructive" className="w-full rounded-2xl" onClick={logout}>
+                    <Button
+                      variant="destructive"
+                      className="w-full rounded-2xl"
+                      onClick={logout}
+                    >
                       Logout
                     </Button>
                   </SheetClose>
@@ -776,7 +823,7 @@ const Header = () => {
         </Sheet>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
